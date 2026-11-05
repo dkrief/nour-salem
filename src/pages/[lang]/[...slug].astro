@@ -22,7 +22,7 @@ const paragraphs = (value: string) => value.split(/\n\s*\n/).filter(Boolean);
   {page === 'home' && <>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-media">
-        {profile.hero ? <Photo src={profile.hero} alt={content.heroAlt} hero position={profile.heroPosition} /> : <Placeholder label={t.photoPending} wide />}
+        {profile.hero ? <Photo src={profile.hero} alt={content.heroAlt} hero position={data.settings.demoMode ? '65% center' : profile.heroPosition} /> : <Placeholder label={t.photoPending} wide />}
       </div>
       <div class="hero-content"><p class="eyebrow">{content.title}</p><h1 id="hero-title">{profile.name}</h1><a href={route(lang, 'portfolio')} class="hero-link">{t.discover}<span aria-hidden="true">↗</span></a></div>
       <a class="scroll-cue" href="#introduction"><span>{t.scroll}</span><span aria-hidden="true">↓</span></a>

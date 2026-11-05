@@ -5,8 +5,11 @@ interface Props { src: string; alt: string; hero?: boolean; class?: string; posi
 const { src, alt, hero = false, class: className = '', position = 'center' } = Astro.props;
 const photo = await imageFor(src);
 const widths = [...new Set([480, 800, 1200, 1800, 2400].filter(w => w < photo.width).concat(Math.min(photo.width, 2400)))];
+// A full-height hero can crop a landscape image to a narrow phone viewport.
+// Account for the covered image width so the browser does not upscale a thumbnail.
+const heroSizes = 'max(100vw, ' + Math.ceil(100 * photo.width / photo.height) + 'svh)';
 ---
 <Picture src={photo} alt={alt} formats={['avif', 'webp']} fallbackFormat="jpg"
-  widths={widths} width={Math.min(photo.width, 2400)} sizes={hero ? '100vw' : '(min-width: 900px) 50vw, 100vw'}
+  widths={widths} width={Math.min(photo.width, 2400)} sizes={hero ? heroSizes : '(min-width: 900px) 50vw, 100vw'}
   loading={hero ? 'eager' : 'lazy'} fetchpriority={hero ? 'high' : 'auto'} decoding="async"
   class={className} style={'object-position:' + position} quality={80} />
