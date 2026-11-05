@@ -1,6 +1,6 @@
 # Nour Salem
 
-Portfolio bilingue Astro, entièrement statique. Hébergement sur Cloudflare Workers Static Assets, édition avec Pages CMS et publication validée par GitHub Actions. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant. À la demande de David, une démonstration publique est prévue sur `nour-salem.com`, avec textes fictifs, photographie illustrative et indexation désactivée.
+Portfolio bilingue Astro, entièrement statique. Hébergement sur Cloudflare Workers Static Assets, édition avec Pages CMS et publication validée par GitHub Actions. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant. À la demande de David, une démonstration publique est publiée sur `nour-salem.com`, avec textes fictifs, photographie illustrative et indexation désactivée.
 
 ## Démarrer
 

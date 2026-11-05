@@ -21,6 +21,10 @@ Le fichier `wrangler.jsonc` désactive `workers.dev` et les Preview URLs. Le Wor
 
 Premier téléversement vérifié : [GitHub Actions 41965148880](https://github.com/dkrief/nour-salem/actions/runs/41965148880), commit `aff539f187df942adeb5e401066bec2b82bd21de`, version Cloudflare `4158afc5-e41f-4ec5-9e0a-eb63455e2856`. Résultat : réussite, `nour-salem-preview` téléversé, aucun domaine ni route déployé. Cela prouve l’accès de déploiement, pas encore le fonctionnement public du portfolio avec ses vrais contenus.
 
+Démonstration publique déployée le 5 novembre 2026 : [GitHub Actions 41968392271](https://github.com/dkrief/nour-salem/actions/runs/41968392271), commit `c3f19efcef4190b7b896a51e4db02e7956623d83`, version Cloudflare `68e0fa92` en état Ready. Les 12 pages répondent 200 en HTTPS, la racine et www redirigent correctement (chemin et paramètres conservés), une URL inconnue renvoie 404. En-tête et HTML noindex, sitemap vide, absence de Person JSON-LD, image optimisée servie et SHA exact contrôlés. DNS public vérifié via Cloudflare, Google et le serveur autoritaire ; à 04:34 UTC la box locale répondait encore sans enregistrement A. Le contrôle HTTPS a donc utilisé l’adresse publique résolue, sans contourner la validation du certificat. Rapport local ignoré : `reports/live-demo-smoke.json`.
+
+Recette de ce build en navigateur local : ordinateur et téléphone 390 × 844, image nette et cadrée, agrandissement au clavier, Échap avec restitution du focus, lien FR/EN vers le même portfolio, et contenus retrouvés dans Pages CMS. Lighthouse mobile sur l’accueil local : Performance 100, Accessibilité 100, Bonnes pratiques 100 ; SEO 69 pour cette démo volontairement non indexable. Ce score local ne mesure ni la propagation DNS ni les futures photos réelles.
+
 ## Redirection www
 
 Créer un enregistrement DNS **A**, nom `www`, valeur `192.0.2.0`, proxy Cloudflare activé. Cette adresse réservée sert uniquement à la règle de redirection ; elle n’est pas une origine à contacter.
