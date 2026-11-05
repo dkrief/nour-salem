@@ -6,6 +6,8 @@ Le dépôt est privé et indépendant d’EditMyPDF. David administre GitHub, le
 
 Le domaine a été enregistré au nom de DataSqueeze jusqu’au 5 novembre 2027. Ne pas souscrire d’hébergement Porkbun, boîte mail, service d’images, Workers Paid ou stockage vidéo.
 
+État vérifié le 5 novembre 2026 : zone Cloudflare active en offre Free, serveurs `mack.ns.cloudflare.com` et `melinda.ns.cloudflare.com` enregistrés chez Porkbun et confirmés par le DNS public. La redirection www est activée et conserve chemin et paramètres. Always Use HTTPS est activé ; le certificat Universal SSL est en cours d’émission à ce stade. Pages CMS est connecté au dépôt, ses formulaires sont opérationnels. L’application Pages CMS est limitée à `dkrief/nour-salem`. La liaison Cloudflare préexistante à `dkrief/mang` est conservée ; seul `nour-salem` a été ajouté. Aucune configuration de l’organisation APRSNL n’a été modifiée.
+
 ## Configuration Cloudflare
 
 1. Ajouter `nour-salem.com` dans le compte dédié et choisir **Free**. Conserver les enregistrements de messagerie réellement utilisés ; ne pas importer le parking ni les services d’essai du registrar.

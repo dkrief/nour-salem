@@ -20,7 +20,7 @@ const groups = await Promise.all(projects.map(async project => ({
       <div class="project-description">{project.description[lang] && <p>{project.description[lang]}</p>}{project.credits && <p class="credits">{t.credits} — {project.credits}</p>}{project.url && <a class="text-link" href={project.url} target="_blank" rel="noopener noreferrer">{t.visit} <span aria-hidden="true">↗</span></a>}</div>
     </header>
     <div class="project-grid">
-      {project.photos.map((photo, index) => <a class:list={['gallery-photo', index === 0 && 'lead-photo']} href={photo.full} data-lightbox={project.id} data-caption={photo.caption[lang] || photo.alt[lang]} aria-label={t.enlarge + ' : ' + photo.alt[lang]}>
+      {project.photos.map((photo, index) => <a class:list={['gallery-photo', index === 0 && 'lead-photo']} href={photo.full} data-lightbox={project.id} data-caption={photo.caption[lang] || photo.alt[lang]} aria-label={t.enlarge + ' : ' + (photo.caption[lang] ? photo.caption[lang] + ' — ' : '') + photo.alt[lang]}>
         <Photo src={photo.src} alt={photo.alt[lang]} />
         <span class="zoom-indicator" aria-hidden="true">↗</span>
         {photo.caption[lang] && <span class="photo-caption">{photo.caption[lang]}</span>}

@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "nour-salem-preview",
+  "account_id": "1e3312877bf902bc60ec9233469c3e35",
   "compatibility_date": "2026-11-05",
   "workers_dev": false,
   "preview_urls": false,
