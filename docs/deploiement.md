@@ -6,17 +6,18 @@ Le dépôt est privé et indépendant d’EditMyPDF. David administre GitHub, le
 
 Le domaine a été enregistré au nom de DataSqueeze jusqu’au 5 novembre 2027. Ne pas souscrire d’hébergement Porkbun, boîte mail, service d’images, Workers Paid ou stockage vidéo.
 
-État vérifié le 5 novembre 2026 : zone Cloudflare active en offre Free, serveurs `mack.ns.cloudflare.com` et `melinda.ns.cloudflare.com` enregistrés chez Porkbun et confirmés par le DNS public. La redirection www est activée et conserve chemin et paramètres. Always Use HTTPS est activé ; le certificat Universal SSL est en cours d’émission à ce stade. Pages CMS est connecté au dépôt, ses formulaires sont opérationnels. L’application Pages CMS est limitée à `dkrief/nour-salem`. La liaison Cloudflare préexistante à `dkrief/mang` est conservée ; seul `nour-salem` a été ajouté. Aucune configuration de l’organisation APRSNL n’a été modifiée.
+État vérifié le 5 novembre 2026 : zone Cloudflare active en offre Free, serveurs `mack.ns.cloudflare.com` et `melinda.ns.cloudflare.com` enregistrés chez Porkbun et confirmés par le DNS public. La redirection www répond en HTTP et HTTPS et conserve chemin et paramètres. Always Use HTTPS est activé. Pages CMS est connecté au dépôt, ses formulaires sont opérationnels ; une sauvegarde de biographie et son annulation ont créé des commits et déclenché GitHub Actions. L’application Pages CMS est limitée à `dkrief/nour-salem`. La liaison Cloudflare préexistante à `dkrief/mang` est conservée dans son périmètre initial. Aucune configuration de l’organisation APRSNL n’a été modifiée.
 
 ## Configuration Cloudflare
 
 1. Ajouter `nour-salem.com` dans le compte dédié et choisir **Free**. Conserver les enregistrements de messagerie réellement utilisés ; ne pas importer le parking ni les services d’essai du registrar.
 2. Chez Porkbun, remplacer les serveurs de noms par les deux valeurs exactes assignées à la zone Cloudflare. Vérifier l’état Active puis le DNS public. Les valeurs varient par zone : ne pas les deviner.
 3. Garder Universal SSL actif. Le Worker ne contient que des assets statiques, sans serveur ni facturation par requête de fonction. HTTPS est fourni par Cloudflare.
-4. Connecter uniquement le dépôt `dkrief/nour-salem` à Cloudflare Workers Builds. Branche initiale : `codex/portfolio-foundation` (branche par défaut de ce dépôt neuf). Désactiver les déploiements automatiques des autres branches.
-5. Commande de build : `npm run check && npm test && npm run build:release && npm run verify:dist`. Commande de déploiement : `npx wrangler deploy --env production`. Racine : `/`. Node : `24.13.0`. Conserver `package-lock.json` et l’installation npm verrouillée.
+4. Utiliser **GitHub Actions**, workflow `.github/workflows/check.yml`. Branche de publication : `codex/portfolio-foundation` (branche par défaut de ce dépôt neuf). Les autres branches et les pull requests exécutent uniquement les contrôles. L’intégration native Cloudflare GitHub est déjà liée au compte MANG ; ne pas la déplacer ni la réinstaller. [Cloudflare recommande une liaison GitHub vers un seul compte Cloudflare](https://developers.cloudflare.com/workers/ci-cd/builds/git-integration/github-integration/).
+5. Le secret de dépôt `CLOUDFLARE_API_TOKEN` contient un jeton du seul compte « DataSqueeze — Nour Salem » : Workers Scripts Write et Account Settings Read sur ce compte, Zone Read sur `nour-salem.com`. Il n’a aucun droit sur les autres comptes. Ne pas le stocker dans les sources. [Procédure GitHub Actions officielle](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/).
+6. Chaque sauvegarde déclenche `npm ci`, types, tests, build non indexable, contrôles du HTML et test de production dans une copie isolée. Si `publicationApproved` vaut `true`, le push sur la branche de publication exécute ensuite `npm run build:release && npm run verify:dist`, puis `npx --no-install wrangler deploy --env production`. Node : `24.13.0`. Conserver `package-lock.json` et l’installation npm verrouillée.
 
-Le fichier `wrangler.jsonc` désactive `workers.dev` et les Preview URLs. La production est liée seulement à `nour-salem.com`. Ne pas rattacher le domaine tant que le contenu n’est pas prêt. La prévisualisation de travail reste locale ; `noindex` n’est pas une protection par mot de passe.
+Le fichier `wrangler.jsonc` désactive `workers.dev` et les Preview URLs. La production est liée seulement à `nour-salem.com`. Ne pas rattacher le domaine tant que le contenu n’est pas prêt. Le déclenchement manuel avec `deploy_preview=true` téléverse uniquement le Worker `nour-salem-preview`, sans domaine ni URL publique, pour vérifier les accès. La prévisualisation consultable reste locale ; `noindex` n’est pas une protection par mot de passe.
 
 ## Redirection www
 
@@ -28,9 +29,9 @@ La redirection `/` vers `/fr/` est produite dans `dist/_redirects`. Les fichiers
 
 ## Activer Pages CMS
 
-David se connecte à [Pages CMS](https://app.pagescms.org/) avec GitHub et installe l’application uniquement sur ce dépôt. Ouvrir sa branche par défaut ; `.pages.yml` doit afficher Profil, Projets et Photos Web. Les sauvegardes sont des commits ; elles déclenchent Workers Builds une fois la connexion établie.
+David se connecte à [Pages CMS](https://app.pagescms.org/) avec GitHub et installe l’application uniquement sur ce dépôt. Ouvrir sa branche par défaut ; `.pages.yml` doit afficher Profil, Projets et Photos Web. Les sauvegardes sont des commits ; elles déclenchent GitHub Actions. Pages CMS omet les valeurs vides : les schémas appliquent les valeurs par défaut sans autoriser une publication incomplète.
 
-Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. Tester réellement : modifier une biographie, ajouter une photo Web, déplacer une photo, la masquer, puis lire la version publiée. Les tests locaux vérifient les effets sur les fichiers mais ne prouvent pas la connexion du CMS hébergé ni la réception de l’invitation.
+Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. Le test de sauvegarde de biographie est effectué. Avec les vrais médias, finir la recette : ajouter une photo Web, déplacer une photo, la masquer, puis lire la version publiée. Les tests locaux vérifient ces transformations des fichiers ; ils ne prouvent pas l’import depuis son poste ni la réception de l’invitation.
 
 ## Première mise en ligne
 

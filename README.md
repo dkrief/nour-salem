@@ -1,6 +1,6 @@
 # Nour Salem
 
-Portfolio bilingue Astro, entièrement statique. Hébergement prévu sur Cloudflare Workers Static Assets, édition avec Pages CMS. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant.
+Portfolio bilingue Astro, entièrement statique. Hébergement sur Cloudflare Workers Static Assets, édition avec Pages CMS et publication validée par GitHub Actions. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant. La première publication publique attend les contenus réels et leur approbation.
 
 ## Démarrer
 
@@ -33,6 +33,8 @@ Le dernier contrôle compile une copie isolée contenant des données TEST ONLY 
 - `src/site-settings.json` : approbation initiale de publication, réservée à David.
 
 `npm run build:release` refuse une publication tant que les vrais contenus requis et l’approbation initiale ne sont pas présents. Une erreur est détectée avant le déploiement ; la dernière version Cloudflare reste active. La validation garantit les champs et les médias, pas la véracité biographique : la relecture des deux langues reste humaine.
+
+Après cette approbation, les sauvegardes Pages CMS sur `codex/portfolio-foundation` déclenchent les contrôles puis la publication automatique. Le workflow manuel peut téléverser le Worker de test sans URL publique ; il ne déploie jamais les données synthétiques de recette.
 
 La racine redirige vers `/fr/`. Six pages existent par langue (les cinq pages du portfolio et les mentions légales), avec liens entre traductions, canonicals, sitemap et une vraie 404. La vidéo externe n’est chargée qu’après un clic.
 

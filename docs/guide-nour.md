@@ -39,6 +39,6 @@ Coller un lien YouTube ou Vimeo dans le profil. Ne pas charger la vidéo dans le
 
 ## Après l’enregistrement
 
-Après activation de la publication automatique, chaque sauvegarde déclenche une validation puis une compilation Cloudflare. Attendre le statut de réussite et vérifier la page concernée, dans les deux langues. Une compilation invalide laisse la dernière version fonctionnelle en ligne ; la sauvegarde reste dans le CMS et peut être corrigée.
+Après activation initiale par David, chaque sauvegarde déclenche les vérifications GitHub Actions puis une publication sur Cloudflare. Attendre le statut de réussite et vérifier la page concernée, dans les deux langues. Une compilation invalide laisse la dernière version fonctionnelle en ligne ; la sauvegarde reste dans le CMS et peut être corrigée.
 
 Si rien ne change après quelques minutes, demander à David de consulter le dernier déploiement. Les causes fréquentes sont une image absente ou trop lourde, une traduction manquante ou un lien incorrect. Il n’y a aucun paiement à faire pour corriger ces erreurs.

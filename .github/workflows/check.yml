@@ -1,18 +1,25 @@
-name: Portfolio checks
+name: Portfolio checks and deployment
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      deploy_preview:
+        description: Upload the validated preview to Cloudflare without a public hostname
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
   group: checks-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       ASTRO_TELEMETRY_DISABLED: "1"
+      WRANGLER_SEND_METRICS: "false"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,3 +32,19 @@ jobs:
       - run: npm run build
       - run: npm run verify:dist
       - run: npm run test:production
+      - name: Read initial publication approval
+        id: publication
+        run: node -e "const fs = require('node:fs'); const s = JSON.parse(fs.readFileSync('src/site-settings.json')); fs.appendFileSync(process.env.GITHUB_OUTPUT, 'approved=' + (s.publicationApproved === true) + '\n');"
+      - name: Upload private preview (manual bootstrap only)
+        if: github.event_name == 'workflow_dispatch' && inputs.deploy_preview && github.ref == 'refs/heads/codex/portfolio-foundation'
+        run: npx --no-install wrangler deploy --env=""
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Build public release after initial approval
+        if: github.event_name == 'push' && github.ref == 'refs/heads/codex/portfolio-foundation' && steps.publication.outputs.approved == 'true'
+        run: npm run build:release && npm run verify:dist
+      - name: Deploy validated release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/codex/portfolio-foundation' && steps.publication.outputs.approved == 'true'
+        run: npx --no-install wrangler deploy --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

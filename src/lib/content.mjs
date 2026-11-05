@@ -34,7 +34,7 @@ export const projectSchema = z.object({
   order: z.number().int().min(0).default(0),
   category: z.enum(['editorial', 'fashion', 'portrait', 'film']).default('editorial'),
   year: z.string().default(''),
-  title: translated, description: translated,
+  title: translated.default({ fr: '', en: '' }), description: translated.default({ fr: '', en: '' }),
   credits: text, url: optionalLink,
   photos: z.array(z.object({ src: localImage, alt: translated, caption: translated.default({ fr: '', en: '' }), published: z.boolean().default(true) })).max(24).default([]),
 });

@@ -6,6 +6,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import sharp from 'sharp';
+import { profileSchema } from '../src/lib/content.mjs';
 
 const root = process.cwd();
 await mkdir('.codex-tmp', { recursive: true });
@@ -13,7 +14,7 @@ const fixture = await mkdtemp(path.join(root, '.codex-tmp/render-'));
 for (const name of ['src', 'public', 'scripts', 'astro.config.mjs', 'tsconfig.json', 'package.json', 'wrangler.jsonc']) {
   await cp(path.join(root, name), path.join(fixture, name), { recursive: true });
 }
-const profile = JSON.parse(await readFile(path.join(fixture, 'src/content/profile.json'), 'utf8'));
+const profile = profileSchema.parse(JSON.parse(await readFile(path.join(fixture, 'src/content/profile.json'), 'utf8')));
 profile.location = 'TEST ONLY';
 profile.email = 'fixture@example.com';
 profile.hero = profile.portrait = '/src/assets/photos/fixture.jpg';
