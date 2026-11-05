@@ -12,24 +12,24 @@
       "published": true,
       "src": "/src/assets/photos/fixture.jpg",
       "alt": {
-        "fr": "TEST A — image synthétique",
-        "en": "TEST A — synthetic image"
-      },
-      "caption": {
-        "fr": "Légende A",
-        "en": "Caption A"
-      }
-    },
-    {
-      "published": true,
-      "src": "/src/assets/photos/fixture.jpg",
-      "alt": {
         "fr": "TEST B — image synthétique",
         "en": "TEST B — synthetic image"
       },
       "caption": {
         "fr": "Légende B",
         "en": "Caption B"
+      }
+    },
+    {
+      "published": true,
+      "src": "/src/assets/photos/fixture.jpg",
+      "alt": {
+        "fr": "TEST A — image synthétique",
+        "en": "TEST A — synthetic image"
+      },
+      "caption": {
+        "fr": "Légende A",
+        "en": "Caption A"
       }
     }
   ]
