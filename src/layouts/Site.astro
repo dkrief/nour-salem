@@ -71,7 +71,9 @@ const person = {
   </head>
   <body class:list={[page === 'home' ? 'home' : 'inner-page', !isPublic && 'is-preview']}>
     <a class="skip-link" href="#main">{t.skip}</a>
-    {!isPublic && <aside class="preview-notice">{t.preview}</aside>}
+    {!isPublic && <aside class="preview-notice">{settings.demoMode
+      ? (lang === 'fr' ? 'Démonstration — textes fictifs et photo illustrative, ce n’est pas Nour.' : 'Demo — fictional copy and illustrative photo, this is not Nour.')
+      : t.preview}</aside>}
     <header class="site-header">
       <div class="header-meta">
         <span>{profile.location || profile[lang].title}</span>

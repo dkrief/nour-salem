@@ -18,6 +18,11 @@ for (const { lang, page, path } of allRoutes()) {
   assert.ok(!html.includes('<iframe'), 'no remote video until click');
   if (status.mode === 'preview') assert.ok(html.includes('content="noindex,nofollow"'), 'preview blocked');
   else assert.ok(html.includes('content="index,follow,max-image-preview:large"'), 'production indexable');
+  if (status.demo) {
+    assert.equal(status.mode, 'preview', 'demo must never be indexable');
+    assert.ok(html.includes(lang === 'fr' ? 'textes fictifs et photo illustrative' : 'fictional copy and illustrative photo'), 'visible demo label');
+    assert.ok(!html.includes('application/ld+json'), 'no fictional Person structured data');
+  }
   for (const match of html.matchAll(/(?:src|href)="(\/[^"#?]*)/g)) {
     const local = match[1];
     const file = local.endsWith('/') ? local + 'index.html' : local;

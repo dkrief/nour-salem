@@ -71,6 +71,7 @@ export async function validateImage(src, root = projectRoot) {
 }
 export function readiness(profile, projects, settings) {
   const missing = [];
+  if (settings.demoMode) missing.push('Remplacer les contenus fictifs et désactiver le mode démonstration');
   if (!settings.publicationApproved) missing.push('Approbation initiale de publication');
   if (!profile.hero) missing.push('Photo principale');
   if (!profile.portrait) missing.push('Portrait de biographie');
@@ -89,7 +90,9 @@ export async function loadContent(root = projectRoot, release = process.env.BUIL
   const readJson = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
   const profile = profileSchema.parse(await readJson('src/content/profile.json'));
   const settings = await readJson('src/site-settings.json');
+  settings.demoMode ??= false;
   if (typeof settings.publicationApproved !== 'boolean' || settings.domain !== 'https://nour-salem.com') throw new Error('Configuration de publication invalide.');
+  if (typeof settings.demoMode !== 'boolean' || (settings.demoMode && settings.publicationApproved)) throw new Error('Une démonstration ne peut pas être approuvée pour indexation.');
   const files = (await readdir(path.join(root, 'src/content/projects'))).filter(f => f.endsWith('.json'));
   const projects = [];
   for (const file of files) {

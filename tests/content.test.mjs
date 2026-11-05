@@ -42,6 +42,16 @@ test('JSON/schema error fails validation before deployment', async () => {
   await writeFile(path.join(root, 'src/content/profile.json'), '{"name":');
   await assert.rejects(loadContent(root), SyntaxError);
 });
+test('public demo stays non-indexable and cannot be promoted by approval alone', async () => {
+  const root = await fixture();
+  const settings = { publicationApproved: false, demoMode: true, domain: 'https://nour-salem.com' };
+  await writeFile(path.join(root, 'src/site-settings.json'), JSON.stringify(settings));
+  assert.equal((await loadContent(root)).isPublic, false);
+  await assert.rejects(loadContent(root, true), /mode démonstration/);
+  settings.publicationApproved = true;
+  await writeFile(path.join(root, 'src/site-settings.json'), JSON.stringify(settings));
+  await assert.rejects(loadContent(root), /démonstration ne peut pas/);
+});
 test('editor save, hide, reorder and bilingual changes are reflected', async () => {
   const root = await fixture();
   await sharp({ create: { width: 20, height: 30, channels: 3, background: '#aaa' } }).jpeg().toFile(path.join(root, 'src/assets/photos/test.jpg'));

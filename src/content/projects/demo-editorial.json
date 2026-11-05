@@ -1,0 +1,29 @@
+{
+  "slug": "demo-editorial",
+  "published": true,
+  "order": 0,
+  "category": "editorial",
+  "title": {
+    "fr": "Lumière naturelle",
+    "en": "Natural light"
+  },
+  "description": {
+    "fr": "Projet de démonstration. Un tailleur noir, la texture de la pierre et une lumière douce : un exemple de présentation éditoriale, à remplacer par un projet réel de Nour.",
+    "en": "Demo project. A black suit, textured stone and soft daylight: a sample editorial presentation, to be replaced with a real project by Nour."
+  },
+  "credits": "Image générée / Generated image — démonstration / demo",
+  "photos": [
+    {
+      "src": "/src/assets/photos/demo-editorial.webp",
+      "alt": {
+        "fr": "Photo illustrative générée : modèle adulte fictif en tailleur noir devant un mur de pierre, à la lumière naturelle. Ce n’est pas Nour Salem.",
+        "en": "Generated illustrative photo: a fictional adult model wearing a black suit against a stone wall in natural light. This is not Nour Salem."
+      },
+      "caption": {
+        "fr": "Démonstration — modèle fictif, photo illustrative.",
+        "en": "Demo — fictional model, illustrative photo."
+      },
+      "published": true
+    }
+  ]
+}

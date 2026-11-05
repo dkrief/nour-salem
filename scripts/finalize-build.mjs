@@ -17,5 +17,5 @@ await writeFile('dist/_redirects', '/ /fr/ 301\n');
 await writeFile('dist/robots.txt', 'User-agent: *\nAllow: /\n' + (isPublic ? 'Sitemap: ' + base + '/sitemap.xml\n' : '# Preview: noindex is also sent in HTTP headers and HTML.\n'));
 const urls = isPublic ? allRoutes().map(({ path }) => '<url><loc>' + base + path + '</loc></url>').join('') : '';
 await writeFile('dist/sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + urls + '</urlset>');
-await writeFile('dist/build-status.json', JSON.stringify({ mode: isPublic ? 'production' : 'preview', commit: process.env.CF_PAGES_COMMIT_SHA || process.env.WORKERS_CI_COMMIT_SHA || process.env.GITHUB_SHA || 'local' }));
+await writeFile('dist/build-status.json', JSON.stringify({ mode: isPublic ? 'production' : 'preview', demo: settings.demoMode, commit: process.env.CF_PAGES_COMMIT_SHA || process.env.WORKERS_CI_COMMIT_SHA || process.env.GITHUB_SHA || 'local' }));
 console.log('Build finalisé : ' + (isPublic ? 'publication' : 'aperçu non indexé') + '.');

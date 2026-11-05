@@ -1,6 +1,6 @@
 # Nour Salem
 
-Portfolio bilingue Astro, entièrement statique. Hébergement sur Cloudflare Workers Static Assets, édition avec Pages CMS et publication validée par GitHub Actions. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant. La première publication publique attend les contenus réels et leur approbation.
+Portfolio bilingue Astro, entièrement statique. Hébergement sur Cloudflare Workers Static Assets, édition avec Pages CMS et publication validée par GitHub Actions. Aucun serveur applicatif, base de données, service d’images ou de vidéo payant. À la demande de David, une démonstration publique est prévue sur `nour-salem.com`, avec textes fictifs, photographie illustrative et indexation désactivée.
 
 ## Démarrer
 
@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Ouvrir http://127.0.0.1:4381/fr/. La version de travail est non indexable et identifie les contenus manquants. Aucune photographie ou biographie fictive de Nour n’est fournie.
+Ouvrir http://127.0.0.1:4381/fr/. La démonstration est non indexable et signale explicitement ses textes fictifs et son modèle illustratif. La photo ne représente pas Nour ; sa [provenance et son prompt](docs/demo-image.md) sont documentés.
 
 ```sh
 npm run check
@@ -30,11 +30,11 @@ Le dernier contrôle compile une copie isolée contenant des données TEST ONLY 
 - `src/content/profile.json` : profil, textes FR/EN, contact, images principales et liens.
 - `src/content/projects/*.json` : projets, crédits, photos, ordre et visibilité.
 - `.pages.yml` : formulaires Pages CMS ; aucune modification de mise en page nécessaire.
-- `src/site-settings.json` : approbation initiale de publication, réservée à David.
+- `src/site-settings.json` : mode démonstration publique et approbation initiale d’indexation, réservés à David.
 
 `npm run build:release` refuse une publication tant que les vrais contenus requis et l’approbation initiale ne sont pas présents. Une erreur est détectée avant le déploiement ; la dernière version Cloudflare reste active. La validation garantit les champs et les médias, pas la véracité biographique : la relecture des deux langues reste humaine.
 
-Après cette approbation, les sauvegardes Pages CMS sur `codex/portfolio-foundation` déclenchent les contrôles puis la publication automatique. Le workflow manuel peut téléverser le Worker de test sans URL publique ; il ne déploie jamais les données synthétiques de recette.
+Les sauvegardes Pages CMS sur `codex/portfolio-foundation` déclenchent les contrôles puis la publication automatique si `demoMode` ou `publicationApproved` est actif. En mode démonstration, le build conserve le bandeau, `noindex`, un sitemap vide et aucune donnée structurée Person. Les deux modes ne peuvent pas être actifs simultanément. Le workflow manuel peut téléverser le Worker de test sans URL publique ; il ne déploie jamais les données synthétiques de recette.
 
 La racine redirige vers `/fr/`. Six pages existent par langue (les cinq pages du portfolio et les mentions légales), avec liens entre traductions, canonicals, sitemap et une vraie 404. La vidéo externe n’est chargée qu’après un clic.
 

@@ -1,10 +1,28 @@
 {
   "name": "Nour Salem",
+  "hero": "/src/assets/photos/demo-editorial.webp",
+  "portrait": "/src/assets/photos/demo-editorial.webp",
   "heroPosition": "center",
   "fr": {
-    "title": "Mannequin & Actrice"
+    "title": "Mannequin & Actrice",
+    "intro": "L’image. Le mouvement. L’émotion.",
+    "biography": "Texte de démonstration : entre lumière naturelle, silhouettes et regards, ce portfolio imagine un univers à la croisée de la mode et du cinéma. Une approche simple, sensible et contemporaine.\n\nCet exemple montre la place de la future biographie : parcours, inspirations, formation et projets. Ces éléments sont fictifs et seront remplacés par les informations de Nour. La personne photographiée est un modèle fictif généré pour la maquette.",
+    "acting": "Exemple de présentation : explorer un personnage, donner du relief à un silence, raconter une histoire par le regard et le mouvement.\n\nCet espace accueillera la bande démo, les extraits et les crédits réels de Nour. Aucun rôle ni film n’est revendiqué dans cette démonstration.",
+    "heroAlt": "Photo illustrative générée : modèle adulte fictif en tailleur noir devant un mur de pierre, à la lumière naturelle. Ce n’est pas Nour Salem.",
+    "portraitAlt": "Modèle fictif aux cheveux bruns et au tailleur noir dans un décor de pierre. Image de démonstration, pas un portrait de Nour.",
+    "seoDescription": "Démonstration du portfolio de Nour Salem, mannequin et actrice : mise en page, textes fictifs et photo illustrative."
   },
   "en": {
-    "title": "Model & Actress"
+    "title": "Model & Actress",
+    "intro": "Image. Movement. Emotion.",
+    "biography": "Demo copy: through natural light, silhouettes and expressive glances, this portfolio imagines a world where fashion meets cinema. A simple, sensitive and contemporary approach.\n\nThis example shows where the future biography will appear: background, inspirations, training and projects. These details are fictional and will be replaced with Nour’s information. The person pictured is a fictional model generated for this demo.",
+    "acting": "Example introduction: exploring a character, giving meaning to a pause, telling a story through expression and movement.\n\nThis space will feature Nour’s actual showreel, clips and credits. This demo makes no claim to any acting role or film credit.",
+    "heroAlt": "Generated illustrative photo: a fictional adult model wearing a black suit against a stone wall in natural light. This is not Nour Salem.",
+    "portraitAlt": "Fictional model with dark hair and a black suit against a stone backdrop. Demo image, not a portrait of Nour.",
+    "seoDescription": "Demo of Nour Salem’s model and actress portfolio: sample layout, fictional copy and an illustrative photo."
+  },
+  "legal": {
+    "fr": "Version de démonstration publiée à la demande de David. Les textes sont des exemples et la photographie a été générée pour illustrer la mise en page : elle ne représente pas Nour Salem.\n\nLes coordonnées professionnelles, crédits et mentions définitives seront ajoutés avec les contenus réels. Cette démo ne propose ni formulaire de contact ni réservation.",
+    "en": "Demo version published at David’s request. The text is sample copy and the photograph was generated to illustrate the layout: it does not depict Nour Salem.\n\nProfessional contact details, credits and the final legal notice will be added with the real content. This demo offers no contact form or booking service."
   }
 }
