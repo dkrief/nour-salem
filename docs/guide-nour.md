@@ -31,6 +31,8 @@ Dans « Projets et galeries », créer un projet avec un identifiant simple et s
 
 Ajouter les photographies à la liste, remplir leurs descriptions FR/EN et leurs légendes facultatives. Déplacer les éléments pour changer l’ordre. Désactiver « Photo visible sur le site » pour masquer une image sans la supprimer. Désactiver « Visible sur le site » sur le projet pour conserver un brouillon complet.
 
+Pour réorganiser au clavier, placer le focus sur la poignée à points à gauche de la photo, appuyer sur Espace, déplacer avec les flèches Haut/Bas, puis appuyer à nouveau sur Espace pour valider. Cliquer sur « Save » pour enregistrer le nouvel ordre. Le bouton en forme de corbeille retire l’entrée ; il ne sert pas à la déplacer.
+
 Un projet visible nécessite au moins une photo visible et ses descriptions dans les deux langues. La première photo est mise en avant. Une galerie peut contenir jusqu’à 24 images.
 
 ## Bande démo

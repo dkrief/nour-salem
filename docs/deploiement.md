@@ -33,7 +33,9 @@ La redirection `/` vers `/fr/` est produite dans `dist/_redirects`. Les fichiers
 
 David se connecte à [Pages CMS](https://app.pagescms.org/) avec GitHub et installe l’application uniquement sur ce dépôt. Ouvrir sa branche par défaut ; `.pages.yml` doit afficher Profil, Projets et Photos Web. Les sauvegardes sont des commits ; elles déclenchent GitHub Actions. Pages CMS omet les valeurs vides : les schémas appliquent les valeurs par défaut sans autoriser une publication incomplète.
 
-Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. La sauvegarde de biographie et l’import d’une image synthétique ont été effectués dans le CMS hébergé ; l’import a déclenché [une CI verte](https://github.com/dkrief/nour-salem/actions/runs/41965250632). Le fichier de test est ensuite retiré des sources actives. Avec les vrais médias, finir la recette : déplacer une photo, la masquer, puis lire la version publiée. Les tests locaux vérifient ces transformations des fichiers ; ils ne prouvent pas ces interactions dans le CMS hébergé, l’import depuis son poste ni la réception de l’invitation.
+Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. La sauvegarde de biographie, l’import d’une image synthétique, l’ajout d’un projet, la réorganisation au clavier et le masquage individuel ont été testés dans le CMS hébergé. L’ordre B/A a été enregistré au commit `0f04c195d8010efaa4aa4fbada5b4972e29ed6a3` ; B masquée et A visible au commit `843a2cddd05dff0f1b3649a1d9323eb45a029f24`. Les pages FR/EN compilées reproduisent l’ordre et omettent bien B après masquage, sans supprimer l’entrée dans le CMS. [CI du réordonnancement](https://github.com/dkrief/nour-salem/actions/runs/41966504976), [CI du masquage](https://github.com/dkrief/nour-salem/actions/runs/41966621278) : réussies.
+
+Les fichiers de recette sont retirés des sources actives après vérification. Il reste à tester l’accès de Nour depuis son propre poste et à relire la version publique avec les vraies photos ; aucun test synthétique ne remplace cette recette de lancement.
 
 ## Première mise en ligne
 
@@ -46,5 +48,7 @@ Refaire Lighthouse mobile avec les vraies photos : objectifs Performance >=90, A
 ## Échec et retour arrière
 
 La commande de release valide le contenu avant de remplacer `dist`. Cloudflare ne publie qu’après un build réussi. Pour une régression après publication, restaurer un déploiement antérieur dans Cloudflare puis corriger le contenu dans GitHub/Pages CMS. Un rollback Cloudflare ne corrige pas les sources : le prochain build reprend le contenu Git.
+
+Test réel du 5 novembre 2026 : masquer toutes les photos d’un projet encore visible dans Pages CMS produit le commit `eb0ff9fbfdbc4dc2716710ae8d2084578d74f65f`. Le [workflow avec demande de déploiement](https://github.com/dkrief/nour-salem/actions/runs/41966831741) échoue à la validation avec « ajouter une photo visible » ; les étapes de téléversement sont ignorées. Le tableau de bord Cloudflare relu après l’échec conserve la version `4158afc5` en état Ready. La protection a été éprouvée sur le Worker privé de préparation, sans publier de données de test sur le domaine.
 
 Conserver le renouvellement du domaine, vérifier les notifications Porkbun et maintenir les comptes d’administration. Ne pas supprimer les médias encore référencés. Git conserve l’historique ; les images mises dans un dépôt privé sont accessibles aux applications explicitement autorisées sur ce dépôt.
