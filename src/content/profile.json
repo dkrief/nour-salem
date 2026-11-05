@@ -1,0 +1,31 @@
+{
+  "name": "Nour Salem",
+  "location": "",
+  "email": "",
+  "hero": "",
+  "portrait": "",
+  "heroPosition": "center",
+  "showreel": "",
+  "socials": [],
+  "agencies": [],
+  "details": [],
+  "fr": {
+    "title": "Mannequin & Actrice",
+    "intro": "",
+    "biography": "",
+    "acting": "",
+    "heroAlt": "",
+    "portraitAlt": "",
+    "seoDescription": ""
+  },
+  "en": {
+    "title": "Model & Actress",
+    "intro": "",
+    "biography": "",
+    "acting": "",
+    "heroAlt": "",
+    "portraitAlt": "",
+    "seoDescription": ""
+  },
+  "legal": { "fr": "", "en": "" }
+}

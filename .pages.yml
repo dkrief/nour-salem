@@ -1,0 +1,175 @@
+media:
+  - name: photos
+    label: "Photos Web — JPEG/WebP, moins de 2 Mo"
+    input: src/assets/photos
+    output: /src/assets/photos
+    extensions: [jpg, jpeg, webp]
+    rename: safe
+
+content:
+  - name: profile
+    label: Profil de Nour — FR et EN
+    type: file
+    path: src/content/profile.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+      - { name: name, label: Nom public, type: string, required: true }
+      - { name: location, label: Ville et pays professionnels, type: string }
+      - name: email
+        label: Adresse e-mail publique
+        type: string
+        description: Adresse existante à laquelle les demandes seront envoyées.
+      - name: hero
+        label: Grande photo d’accueil
+        type: image
+        options: { media: photos }
+        description: "JPEG/WebP inférieur à 2 Mo. La première photo définit l’allure de l’accueil."
+      - name: heroPosition
+        label: Cadrage de la photo d’accueil
+        type: select
+        default: center
+        options:
+          values:
+            - { value: center, label: Centre }
+            - { value: top, label: Haut }
+            - { value: bottom, label: Bas }
+      - name: portrait
+        label: Portrait pour la biographie
+        type: image
+        options: { media: photos }
+      - name: showreel
+        label: Lien YouTube ou Vimeo de la bande démo
+        type: string
+        description: "Un lien complet https:// ; laisser vide si aucune bande démo n’est prête."
+      - name: socials
+        label: Liens officiels
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Nom du réseau, type: string, required: true }
+          - { name: url, label: Lien HTTPS, type: string, required: true }
+      - name: agencies
+        label: Agences et représentation
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Agence, type: string, required: true }
+          - { name: territory, label: Pays ou territoire, type: string }
+          - { name: url, label: Lien HTTPS officiel, type: string }
+      - name: details
+        label: Informations professionnelles facultatives
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Intitulé
+            type: object
+            fields: &translations
+              - { name: fr, label: Français, type: string }
+              - { name: en, label: English, type: string }
+          - { name: value, label: Valeur, type: string, required: true }
+      - name: fr
+        label: Textes français
+        type: object
+        fields: &profile_fields
+          - { name: title, label: Activité, type: string, required: true }
+          - { name: intro, label: Accroche d’introduction, type: string }
+          - { name: biography, label: Biographie, type: text }
+          - { name: acting, label: Présentation actrice, type: text }
+          - { name: heroAlt, label: Description de la photo d’accueil, type: string }
+          - { name: portraitAlt, label: Description du portrait, type: string }
+          - { name: seoDescription, label: Description courte pour les moteurs de recherche, type: text, description: "Résumé fidèle de 140 à 160 caractères environ." }
+      - name: en
+        label: English copy
+        type: object
+        fields: *profile_fields
+      - name: legal
+        label: Mentions légales validées
+        type: object
+        fields:
+          - { name: fr, label: Français, type: text }
+          - { name: en, label: English, type: text }
+  - name: projects
+    label: Projets et galeries
+    type: collection
+    path: src/content/projects
+    format: json
+    subfolders: false
+    filename:
+      template: "{fields.slug}.json"
+      field: false
+    operations: { create: true, rename: false, delete: true }
+    view:
+      primary: slug
+      fields: [slug, published, category, order]
+      sort: [order, slug]
+      default: { sort: order, order: asc }
+    fields:
+      - name: slug
+        label: Identifiant du projet
+        type: string
+        required: true
+        description: "Exemple : portrait-studio. À conserver après création."
+        pattern:
+          regex: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          message: Lettres minuscules, chiffres et tirets uniquement.
+      - name: published
+        label: Visible sur le site
+        type: boolean
+        default: false
+        description: "Compléter les titres FR/EN et au moins une photo avec ses descriptions avant d’activer."
+      - { name: order, label: Ordre (le plus petit en premier), type: number, default: 0 }
+      - name: category
+        label: Catégorie
+        type: select
+        default: editorial
+        options:
+          values:
+            - { value: editorial, label: Éditorial }
+            - { value: fashion, label: Mode }
+            - { value: portrait, label: Portrait }
+            - { value: film, label: Cinéma }
+      - { name: year, label: Année ou saison, type: string }
+      - name: title
+        label: Titre du projet
+        type: object
+        fields: *translations
+      - name: description
+        label: Présentation
+        type: object
+        fields:
+          - { name: fr, label: Français, type: text }
+          - { name: en, label: English, type: text }
+      - { name: credits, label: Crédits (photographe, réalisation, équipe…), type: text }
+      - { name: url, label: Lien HTTPS vers la publication originale, type: string }
+      - name: photos
+        label: Photos — ordre d’affichage
+        type: object
+        list:
+          max: 24
+          collapsible: { collapsed: true, summary: "{alt.fr}" }
+        fields:
+          - { name: published, label: Photo visible sur le site, type: boolean, default: true }
+          - name: src
+            label: Photographie
+            type: image
+            required: true
+            options: { media: photos }
+          - name: alt
+            label: Description accessible
+            type: object
+            fields:
+              - { name: fr, label: Français, type: string, required: true }
+              - { name: en, label: English, type: string, required: true }
+          - name: caption
+            label: Légende facultative
+            type: object
+            fields: *translations
+settings:
+  hide: true
+  content: { merge: true }
+  commit: { identity: app }

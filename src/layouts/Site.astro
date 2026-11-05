@@ -1,0 +1,103 @@
+---
+import { getImage } from 'astro:assets';
+import type { loadContent } from '../lib/content.mjs';
+import { copy, route } from '../lib/routes.mjs';
+import { imageFor } from '../lib/images';
+import '../styles/site.css';
+interface Props {
+  lang: 'fr' | 'en'; page: string;
+  data: Awaited<ReturnType<typeof loadContent>>;
+  title?: string; noIndex?: boolean;
+}
+const { lang, page, data, title: overrideTitle, noIndex = false } = Astro.props;
+const { profile, isPublic, settings } = data;
+const t = copy[lang];
+const other = lang === 'fr' ? 'en' : 'fr';
+const labels = t as Record<string, string>;
+const canonical = settings.domain + route(lang, page);
+const title = overrideTitle || (page === 'home' ? profile.name + ' — ' + profile[lang].title : labels[page] + ' — ' + profile.name);
+const summary = profile[lang].seoDescription || profile[lang].title;
+const descriptions = lang === 'fr' ? {
+  home: summary,
+  about: 'Biographie de ' + profile.name + '. ' + (profile[lang].biography || summary),
+  portfolio: 'Portfolio mannequinat de ' + profile.name + '. Projets, photographies et crédits.' + (profile.location ? ' ' + profile.location + '.' : ''),
+  acting: profile.name + ', actrice. ' + (profile[lang].acting || summary),
+  contact: 'Contacter ' + profile.name + ' pour un projet, un casting ou une collaboration.' + (profile.location ? ' ' + profile.location + '.' : ''),
+  legal: 'Mentions légales et informations sur le site officiel de ' + profile.name + '.',
+} : {
+  home: summary,
+  about: 'About ' + profile.name + '. ' + (profile[lang].biography || summary),
+  portfolio: profile.name + ' modelling portfolio. Projects, photographs and credits.' + (profile.location ? ' ' + profile.location + '.' : ''),
+  acting: profile.name + ', actress. ' + (profile[lang].acting || summary),
+  contact: 'Contact ' + profile.name + ' for projects, casting and collaborations.' + (profile.location ? ' ' + profile.location + '.' : ''),
+  legal: 'Legal notice and information about the official website of ' + profile.name + '.',
+};
+const description = (descriptions[page as keyof typeof descriptions] || summary).replace(/\s+/g, ' ').trim().slice(0, 175);
+const shareImage = profile.hero ? (await getImage({ src: await imageFor(profile.hero), width: 1200, format: 'jpg' })).src : null;
+const person = {
+  '@context': 'https://schema.org', '@type': 'Person', '@id': settings.domain + '/#nour-salem',
+  name: profile.name, url: settings.domain + route(lang), jobTitle: profile[lang].title,
+  ...(profile[lang].biography ? { description: profile[lang].biography } : {}),
+  ...(shareImage ? { image: new URL(shareImage, settings.domain).href } : {}),
+  ...(profile.socials.length ? { sameAs: profile.socials.map(s => s.url) } : {}),
+};
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={isPublic && !noIndex ? 'index,follow,max-image-preview:large' : 'noindex,nofollow'} />
+    {!noIndex && <>
+      <link rel="canonical" href={canonical} />
+      <link rel="alternate" hreflang="fr" href={settings.domain + route('fr', page)} />
+      <link rel="alternate" hreflang="en" href={settings.domain + route('en', page)} />
+      <link rel="alternate" hreflang="x-default" href={settings.domain + route('fr', page)} />
+    </>}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_GB'} />
+    <meta property="og:locale:alternate" content={lang === 'fr' ? 'en_GB' : 'fr_FR'} />
+    <meta name="twitter:card" content={shareImage ? 'summary_large_image' : 'summary'} />
+    {shareImage && <><meta property="og:image" content={new URL(shareImage, settings.domain).href} /><meta property="og:image:alt" content={profile[lang].heroAlt} /></>}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#252421" />
+    {isPublic && !noIndex && <script type="application/ld+json" set:html={JSON.stringify(person).replace(/</g, '\\u003c')} />}
+  </head>
+  <body class:list={[page === 'home' ? 'home' : 'inner-page', !isPublic && 'is-preview']}>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    {!isPublic && <aside class="preview-notice">{t.preview}</aside>}
+    <header class="site-header">
+      <div class="header-meta">
+        <span>{profile.location || profile[lang].title}</span>
+        {profile.email && <a href={'mailto:' + profile.email}>{profile.email}</a>}
+        <a class="language-switch" href={route(other, page)} lang={other} hreflang={other} aria-label={other === 'fr' ? 'Lire en français' : 'Read in English'}>{other.toUpperCase()} <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="header-main">
+        <a class="wordmark" href={route(lang)} aria-label={profile.name + ' — ' + t.home}>{profile.name}</a>
+        <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+          {['home', 'about', 'portfolio', 'acting', 'contact'].map(key => <a href={route(lang, key)} aria-current={key === page ? 'page' : undefined}>{labels[key]}</a>)}
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-main"><a class="wordmark" href={route(lang)}>{profile.name}</a><span>{profile[lang].title}</span>
+        <div class="social-links">{profile.socials.map(s => <a href={s.url} target="_blank" rel="noopener noreferrer">{s.label} <span aria-hidden="true">↗</span></a>)}</div>
+      </div>
+      <div class="footer-meta"><span>© {new Date().getFullYear()} {profile.name}. {t.rights}</span><a href={route(lang, 'legal')}>{t.legal}</a><a href="#main" aria-label={lang === 'fr' ? 'Retour en haut' : 'Back to top'}>↑</a></div>
+    </footer>
+    <dialog class="lightbox" aria-label={t.selectedWork}>
+      <button class="lightbox-close" type="button" data-close aria-label={t.close}>×</button>
+      <button class="lightbox-prev" type="button" data-prev aria-label={t.previous}>←</button>
+      <figure><img data-viewer alt="" width="1200" height="1600" /><figcaption aria-live="polite"></figcaption></figure>
+      <button class="lightbox-next" type="button" data-next aria-label={t.next}>→</button>
+    </dialog>
+    <script src="../scripts/interactions.ts"></script>
+  </body>
+</html>

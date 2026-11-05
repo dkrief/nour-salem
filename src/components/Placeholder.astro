@@ -1,0 +1,8 @@
+---
+interface Props { label: string; wide?: boolean; }
+const { label, wide = false } = Astro.props;
+---
+<div class:list={['photo-placeholder', wide && 'placeholder-wide']} role="img" aria-label={label}>
+  <span class="placeholder-monogram" aria-hidden="true">N<span>S</span></span>
+  <span class="placeholder-caption">{label}</span>
+</div>

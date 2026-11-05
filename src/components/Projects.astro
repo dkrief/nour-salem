@@ -1,0 +1,30 @@
+---
+import { getImage } from 'astro:assets';
+import { imageFor } from '../lib/images';
+import { copy } from '../lib/routes.mjs';
+import type { loadContent } from '../lib/content.mjs';
+import Photo from './Photo.astro';
+interface Props { projects: Awaited<ReturnType<typeof loadContent>>['projects']; lang: 'fr' | 'en'; }
+const { projects, lang } = Astro.props;
+const t = copy[lang];
+const groups = await Promise.all(projects.map(async project => ({
+  ...project,
+  photos: await Promise.all(project.photos.map(async photo => ({ ...photo,
+    full: (await getImage({ src: await imageFor(photo.src), width: 1800, format: 'jpg', quality: 85 })).src,
+  }))),
+})));
+---
+<div class="projects">
+  {groups.map(project => <article class="project" data-category={project.category} id={'project-' + project.id}>
+    <header class="project-header"><div><p class="eyebrow">{(t as Record<string, string>)[project.category]} {project.year && ' / ' + project.year}</p><h2>{project.title[lang]}</h2></div>
+      <div class="project-description">{project.description[lang] && <p>{project.description[lang]}</p>}{project.credits && <p class="credits">{t.credits} — {project.credits}</p>}{project.url && <a class="text-link" href={project.url} target="_blank" rel="noopener noreferrer">{t.visit} <span aria-hidden="true">↗</span></a>}</div>
+    </header>
+    <div class="project-grid">
+      {project.photos.map((photo, index) => <a class:list={['gallery-photo', index === 0 && 'lead-photo']} href={photo.full} data-lightbox={project.id} data-caption={photo.caption[lang] || photo.alt[lang]} aria-label={t.enlarge + ' : ' + photo.alt[lang]}>
+        <Photo src={photo.src} alt={photo.alt[lang]} />
+        <span class="zoom-indicator" aria-hidden="true">↗</span>
+        {photo.caption[lang] && <span class="photo-caption">{photo.caption[lang]}</span>}
+      </a>)}
+    </div>
+  </article>)}
+</div>

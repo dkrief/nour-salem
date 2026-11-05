@@ -1,0 +1,16 @@
+---
+import { videoEmbed } from '../lib/content.mjs';
+import { copy } from '../lib/routes.mjs';
+import Photo from './Photo.astro';
+interface Props { url: string; lang: 'fr' | 'en'; poster?: string; posterAlt?: string; }
+const { url, lang, poster = '', posterAlt = '' } = Astro.props;
+const t = copy[lang];
+const embed = videoEmbed(url);
+---
+{embed && <div class="reel-wrapper">
+  <div class="reel" data-video={embed} data-video-title={'Nour Salem — ' + t.reel}>
+    {poster && <Photo src={poster} alt={posterAlt} />}
+    <button type="button" class="play-video" aria-label={t.play}><span class="play-icon" aria-hidden="true">▶</span><span>{t.play}</span></button>
+  </div>
+  <p class="video-notice">{t.videoNotice} <a href={url} target="_blank" rel="noopener noreferrer">{lang === 'fr' ? 'Ouvrir directement' : 'Open directly'} ↗</a></p>
+</div>}
