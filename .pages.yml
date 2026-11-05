@@ -144,7 +144,7 @@ content:
         fields:
           - { name: fr, label: Français, type: text }
           - { name: en, label: English, type: text }
-      - { name: credits, label: Crédits (photographe, réalisation, équipe…), type: text }
+      - { name: credits, label: "Crédits (photographe, réalisation, équipe…)", type: text }
       - { name: url, label: Lien HTTPS vers la publication originale, type: string }
       - name: photos
         label: Photos — ordre d’affichage

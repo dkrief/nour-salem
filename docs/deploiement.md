@@ -19,6 +19,8 @@ Le domaine a été enregistré au nom de DataSqueeze jusqu’au 5 novembre 2027.
 
 Le fichier `wrangler.jsonc` désactive `workers.dev` et les Preview URLs. La production est liée seulement à `nour-salem.com`. Ne pas rattacher le domaine tant que le contenu n’est pas prêt. Le déclenchement manuel avec `deploy_preview=true` téléverse uniquement le Worker `nour-salem-preview`, sans domaine ni URL publique, pour vérifier les accès. La prévisualisation consultable reste locale ; `noindex` n’est pas une protection par mot de passe.
 
+Premier téléversement vérifié : [GitHub Actions 41965148880](https://github.com/dkrief/nour-salem/actions/runs/41965148880), commit `aff539f187df942adeb5e401066bec2b82bd21de`, version Cloudflare `4158afc5-e41f-4ec5-9e0a-eb63455e2856`. Résultat : réussite, `nour-salem-preview` téléversé, aucun domaine ni route déployé. Cela prouve l’accès de déploiement, pas encore le fonctionnement public du portfolio avec ses vrais contenus.
+
 ## Redirection www
 
 Créer un enregistrement DNS **A**, nom `www`, valeur `192.0.2.0`, proxy Cloudflare activé. Cette adresse réservée sert uniquement à la règle de redirection ; elle n’est pas une origine à contacter.
@@ -31,7 +33,7 @@ La redirection `/` vers `/fr/` est produite dans `dist/_redirects`. Les fichiers
 
 David se connecte à [Pages CMS](https://app.pagescms.org/) avec GitHub et installe l’application uniquement sur ce dépôt. Ouvrir sa branche par défaut ; `.pages.yml` doit afficher Profil, Projets et Photos Web. Les sauvegardes sont des commits ; elles déclenchent GitHub Actions. Pages CMS omet les valeurs vides : les schémas appliquent les valeurs par défaut sans autoriser une publication incomplète.
 
-Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. Le test de sauvegarde de biographie est effectué. Avec les vrais médias, finir la recette : ajouter une photo Web, déplacer une photo, la masquer, puis lire la version publiée. Les tests locaux vérifient ces transformations des fichiers ; ils ne prouvent pas l’import depuis son poste ni la réception de l’invitation.
+Après réception de son adresse et instruction d’envoi, inviter Nour comme collaboratrice éditoriale. La sauvegarde de biographie et l’import d’une image synthétique ont été effectués dans le CMS hébergé ; l’import a déclenché [une CI verte](https://github.com/dkrief/nour-salem/actions/runs/41965250632). Le fichier de test est ensuite retiré des sources actives. Avec les vrais médias, finir la recette : déplacer une photo, la masquer, puis lire la version publiée. Les tests locaux vérifient ces transformations des fichiers ; ils ne prouvent pas ces interactions dans le CMS hébergé, l’import depuis son poste ni la réception de l’invitation.
 
 ## Première mise en ligne
 
