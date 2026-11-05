@@ -9,7 +9,7 @@
   },
   "photos": [
     {
-      "published": true,
+      "published": false,
       "src": "/src/assets/photos/fixture.jpg",
       "alt": {
         "fr": "TEST B — image synthétique",
