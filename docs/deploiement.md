@@ -51,6 +51,8 @@ Refaire Lighthouse mobile avec les vraies photos : objectifs Performance >=90, A
 
 ## Échec et retour arrière
 
+Après chaque déploiement public, le runner GitHub vérifie aussi la résolution DNS normale, le certificat HTTPS, le SHA servi, les accueils FR/EN, les redirections racine/www et une vraie 404. La démo doit toujours répondre noindex. Un échec de ce contrôle signale un incident après publication ; il ne déclenche pas de rollback automatique.
+
 La commande de release valide le contenu avant de remplacer `dist`. Cloudflare ne publie qu’après un build réussi. Pour une régression après publication, restaurer un déploiement antérieur dans Cloudflare puis corriger le contenu dans GitHub/Pages CMS. Un rollback Cloudflare ne corrige pas les sources : le prochain build reprend le contenu Git.
 
 Test réel du 5 novembre 2026 : masquer toutes les photos d’un projet encore visible dans Pages CMS produit le commit `eb0ff9fbfdbc4dc2716710ae8d2084578d74f65f`. Le [workflow avec demande de déploiement](https://github.com/dkrief/nour-salem/actions/runs/41966831741) échoue à la validation avec « ajouter une photo visible » ; les étapes de téléversement sont ignorées. Le tableau de bord Cloudflare relu après l’échec conserve la version `4158afc5` en état Ready. La protection a été éprouvée sur le Worker privé de préparation, sans publier de données de test sur le domaine.
